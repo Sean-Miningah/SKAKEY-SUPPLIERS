@@ -33,6 +33,8 @@ if DEBUG :
     ALLOWED_HOSTS = []
 else:
     ALLOWED_HOSTS = [os.envirion.get('WEBSITE_HOSTNAME'),]
+    # ALLOWED_HOSTS = []
+    
 
 
 # Application definition
@@ -40,6 +42,10 @@ else:
 INSTALLED_APPS = [
     'Suppliers',
     
+    'whitenoise.runserver_nostatic',
+    'django_filters',
+    'rest_framework',
+    'rest_framework.authtoken',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
