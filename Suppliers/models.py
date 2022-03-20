@@ -31,6 +31,9 @@ class SuppliersAccount(AbstractBaseUser, PermissionsMixin):
     role = models.ForeignKey('SupplierAccountRole', related_name='supplierRole', 
                              on_delete=models.CASCADE, blank=True, null=True,
                              default=None)
+    start_date = models.DateField(auto_now=True)
+    is_staff = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=True)
     
     objects = CustomAccountManager() 
     
@@ -42,10 +45,16 @@ class SuppliersAccount(AbstractBaseUser, PermissionsMixin):
     
 class SupplierCompany(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False)
-    businessIdentity = models.CharField(max_length=100, blank=False,
+    businessIdentityNo = models.CharField(max_length=100, blank=False,
                                         null=False, unique=True)
+    
+    def __str__(self):
+        return self.name
     
 class SupplierAccountRole(models.Model):
     name = models.CharField(max_length=100, blank=False,
                             null=False, unique=True)
+    
+    def __str__(self):
+        return self.name
     

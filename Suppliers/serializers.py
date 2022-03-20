@@ -7,7 +7,14 @@ SuppliersAccount = get_user_model()
 class SupplierAccountSerializer(serializers.ModelSerializer):
     class Meta: 
         model = SuppliersAccount 
-        fields = ('email', 'password', 'supplierCompany', 'role')
+        exclude = ['is_staff','is_active','password']
+        
+        def create(self, validated_data):
+            password = validated_data.pop('password')
+            account = SuppliersAccount(**validated_data)
+            print('\n  acount run \n')
+            account.save()
+            return account
         
 class SupplierCompanySerializer(serializers.ModelSerializer):
     class Meta:
