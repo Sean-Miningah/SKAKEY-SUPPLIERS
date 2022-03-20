@@ -32,7 +32,7 @@ DEBUG = os.environ.get('DEBUG') == "1"
 if DEBUG :
     ALLOWED_HOSTS = []
 else:
-    ALLOWED_HOSTS = [os.envirion.get('WEBSITE_HOSTNAME'),]
+    ALLOWED_HOSTS = [os.environ.get('WEBSITE_HOSTNAME'),]
     # ALLOWED_HOSTS = []
     
 
