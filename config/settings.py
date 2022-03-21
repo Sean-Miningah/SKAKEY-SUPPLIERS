@@ -173,3 +173,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Default user model
 AUTH_USER_MODEL = 'Suppliers.SuppliersAccount'
 
+# EMAIL ADDRESS DETAILS
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'skakeypos@gmail.com'
+EMAIL_HOST_PASSWORD = 'olobnnfviqdgydfg'
+# DEFAULT_FROM_EMAIL

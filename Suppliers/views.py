@@ -12,10 +12,25 @@ from rest_framework.permissions import IsAuthenticated
 from .models import (SupplierCompany, SupplierAccountRole)
 from .serializers import (SupplierAccountSerializer, SupplierCompanySerializer, SupplierAccountRoleSerializer)
 
-from .utilities import (get_and_authenticate_supplierAccount)
+from .utilities import (get_and_authenticate_supplierAccount, generate_key)
+from .send_mail import verification_email
 
 
 SuppliersAccount = get_user_model()
+
+
+class AccountAuthenticationView(mixins.CreateModelMixin, viewsets.GenericViewSet,):
+    querset = SuppliersAccount.objects.all()
+    serializer_class = SupplierAccountSerializer
+    
+    def create(self, request, *args, **kwargs):
+        email = request.data['email']
+        key = generate_key()
+        verification_email(email,key)
+        res = {
+            'key': key
+        }
+        return Response(res, status=status.HTTP_200_OK)
 
 
 class SupplierAccountView(mixins.CreateModelMixin,
