@@ -31,6 +31,9 @@ class SuppliersAccount(AbstractBaseUser, PermissionsMixin):
     role = models.ForeignKey('SupplierAccountRole', related_name='supplierRole', 
                              on_delete=models.CASCADE, blank=True, null=True,
                              default=None)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+    phone_number = models.CharField(max_length=50)
     start_date = models.DateField(auto_now=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)

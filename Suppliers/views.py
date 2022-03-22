@@ -80,7 +80,7 @@ class AccountLogin(viewsets.GenericViewSet,
         
         res = {
             "message": "Succesfully logged in to Account",
-            "token": "Token" + token.key
+            "token": "Token " + token.key
         }
         
         return Response(res, status=status.HTTP_200_OK)
