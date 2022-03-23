@@ -72,15 +72,25 @@ class AccountLogin(viewsets.GenericViewSet,
     serializer_class = SupplierAccountSerializer 
     
     def create(self, request, *args, **kwargs):
+        
+        FAIL = '210'
+        SUCCESS = '200'
+        
         email = request.data["email"]
         password = request.data["password"]
         
         supplierAccount = get_and_authenticate_supplierAccount(email, password)
         token = Token.objects.get(user=supplierAccount)
         
+        if supplierAccount.supplierCompany == None:
+            code = FAIL
+        else: 
+            code = SUCCESS
+        
         res = {
             "message": "Succesfully logged in to Account",
-            "token": "Token " + token.key
+            "token": "Token " + token.key,
+            "code":code 
         }
         
         return Response(res, status=status.HTTP_200_OK)
