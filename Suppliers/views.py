@@ -59,6 +59,7 @@ class SupplierAccountView(mixins.CreateModelMixin,
         return Response(res, status=status.HTTP_201_CREATED, headers=headers)
 
 class SupplierCompanyView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = SupplierCompany.objects.all()
     serializer_class = SupplierCompanySerializer
   
