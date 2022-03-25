@@ -63,9 +63,22 @@ class SupplierCompanyView(viewsets.ModelViewSet):
     queryset = SupplierCompany.objects.all()
     serializer_class = SupplierCompanySerializer
     
-    # def get_queryset(self):
-    #     user = self.request.user
-    #     return SupplierCompany.objects.all()
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        
+        account = SuppliersAccount.objects.get(id=self.request.user.id)
+        company = SupplierCompany.objects.get(businessIdentityNo=request.data['businessIdentityNo'])
+        account.supplierCompany = company
+        account.save()
+        
+        res = {
+            "message": "Succesfully registered Account",
+        }
+
+        return Response(res, status=status.HTTP_201_CREATED, headers=headers)
     
 class CompanyView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -82,6 +95,35 @@ class CompanyView(viewsets.ModelViewSet):
 class SupplierRoleView(viewsets.ModelViewSet):
     queryset = SupplierAccountRole.objects.all()
     serializer_class = SupplierAccountRoleSerializer
+    
+class SubordinateAccountView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = SuppliersAccount.objects.all()
+    serializer_class = SupplierAccountSerializer
+    
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        
+        # creator = SuppliersAccount.objects.get(id=self.request.user)
+        creator = self.request.user
+        creatorCompany = creator.supplierCompany.id
+        
+        account = SuppliersAccount.objects.get(email=request.data['email'])
+        company = SupplierCompany.objects.get(id=creatorCompany)
+        account.set_password(request.data['password'])
+        account.supplierCompany = company
+        account.save()
+        token = Token.objects.create(user=account)
+        
+        res = {
+            "message": "Succesfully registered Account",
+        }
+
+        return Response(res, status=status.HTTP_201_CREATED, headers=headers)
+        
     
 class AccountLogin(viewsets.GenericViewSet,
                    mixins.CreateModelMixin):

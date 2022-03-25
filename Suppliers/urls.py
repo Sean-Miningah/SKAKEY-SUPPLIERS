@@ -5,6 +5,7 @@ from . import views
 router = DefaultRouter()
 router.register("emailVerification", views.AccountAuthenticationView, basename="email-verification")
 router.register("supplierAccount", views.SupplierAccountView, basename="create-account")
+router.register("subordinateAccount", views.SubordinateAccountView, basename="subordinates-info")
 router.register("supplierCompany", views.SupplierCompanyView, basename="create-company")
 router.register("accountRoles", views.SupplierRoleView, basename="supplier-role")
 router.register("login", views.AccountLogin, basename="login")
