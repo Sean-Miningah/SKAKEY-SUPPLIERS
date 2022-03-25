@@ -1,7 +1,8 @@
 from django.contrib.auth import get_user_model 
 from rest_framework import serializers
 
-from .models import (SupplierCompany, SupplierAccountRole)
+from .models import (SupplierCompany, SupplierAccountRole, WareHouse,
+                     StockDetails, Products, ProductCategory)
 SuppliersAccount = get_user_model() 
 
 class SupplierAccountSerializer(serializers.ModelSerializer):
@@ -25,3 +26,23 @@ class SupplierAccountRoleSerializer(serializers.ModelSerializer):
     class Meta:
         model = SupplierAccountRole
         fields = '__all__'   
+        
+class WareHouseSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = WareHouse
+        fields = 'all'
+        
+class StockDetailsSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = StockDetials
+        fields = 'all'
+
+class ProductsSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = Products
+        fields = 'all'
+
+class ProductCategorySerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = ProductCategory
+        fields = 'all'
