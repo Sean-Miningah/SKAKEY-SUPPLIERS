@@ -11,7 +11,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import (SupplierCompany, SupplierAccountRole, WareHouse, StockDetails, Products, ProductCategory)
 from .serializers import (SupplierAccountSerializer, SupplierCompanySerializer, SupplierAccountRoleSerializer, 
-                          WareHouseSerializer, StockDetailsSerializer, ProductSerializer, ProductCategorySerializer)
+                          WareHouseSerializer, StockDetailsSerializer, ProductsSerializer, ProductCategorySerializer)
 
 from .utilities import (get_and_authenticate_supplierAccount, generate_key)
 from .send_mail import verification_email
@@ -98,7 +98,7 @@ class AccountLogin(viewsets.GenericViewSet,
     
 class WareHouseView(viewsets.ModelViewSet):
     queryset = WareHouse.objects.all()
-    serializer_class = WareHouserSerializer
+    serializer_class = WareHouseSerializer
     
 class StockView(viewsets.ModelViewSet):
     queryset = StockDetails.objects.all()
@@ -109,6 +109,6 @@ class ProductView(viewsets.ModelViewSet):
     serializer_class = ProductsSerializer
     
 class ProductCategory(viewsets.ModelViewSet):
-    queryset = ProductCategory.object.all()
+    queryset = ProductCategory.objects.all()
     serializer_class = ProductCategorySerializer
 
