@@ -96,7 +96,7 @@ class AccountLogin(viewsets.GenericViewSet,
         
         return Response(res, status=status.HTTP_200_OK)
     
-class WareHouserView(viewsets.ModelViewSet):
+class WareHouseView(viewsets.ModelViewSet):
     queryset = WareHouse.objects.all()
     serializer_class = WareHouserSerializer
     
