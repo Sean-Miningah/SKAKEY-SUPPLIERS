@@ -30,19 +30,19 @@ class SupplierAccountRoleSerializer(serializers.ModelSerializer):
 class WareHouseSerializer(serializers.ModelSerializer):
     class Meta: 
         model = WareHouse
-        fields = 'all'
+        fields = '__all__'
         
 class StockDetailsSerializer(serializers.ModelSerializer):
     class Meta: 
-        model = StockDetials
-        fields = 'all'
+        model = StockDetails
+        fields = '__all__'
 
 class ProductsSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Products
-        fields = 'all'
+        fields = '__all__'
 
 class ProductCategorySerializer(serializers.ModelSerializer):
     class Meta: 
         model = ProductCategory
-        fields = 'all'
+        fields = '__all__'
