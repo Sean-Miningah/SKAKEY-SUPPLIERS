@@ -97,18 +97,22 @@ class AccountLogin(viewsets.GenericViewSet,
         return Response(res, status=status.HTTP_200_OK)
     
 class WareHouseView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = WareHouse.objects.all()
     serializer_class = WareHouseSerializer
     
 class StockView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = StockDetails.objects.all()
     serializer_class = StockDetailsSerializer
     
 class ProductView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
     
 class ProductCategory(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
     queryset = ProductCategory.objects.all()
     serializer_class = ProductCategorySerializer
 
