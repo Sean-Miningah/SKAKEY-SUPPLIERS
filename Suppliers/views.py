@@ -171,6 +171,15 @@ class WareHouseView(viewsets.ModelViewSet):
     queryset = WareHouse.objects.all()
     serializer_class = WareHouseSerializer
     
+    def list(self, request, *args, **kwargs):
+        account = self.request.user
+        company = SupplierCompany.objects.get(id=account.supplierCompany.id)
+        warehouse = WareHouse.objects.filter(supplierCompany=company.id)
+        print(warehouse)
+        serializer = WareHouseSerializer(warehouse, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+        
+    
 class StockView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = StockDetails.objects.all()

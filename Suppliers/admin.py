@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import (SuppliersAccount, SupplierCompany, SupplierAccountRole)
+from .models import (SuppliersAccount, SupplierCompany, SupplierAccountRole,
+                    WareHouse, StockDetails, Products, ProductCategory)
 
 # Register your models here.
 
@@ -55,9 +56,33 @@ class SupplierAccountRoleAdmin(admin.ModelAdmin):
         })
     )
 
+class WareHouseAdmin(admin.ModelAdmin):
+    list_display = ('name', 'supplierCompany',)
+    search_fields = ('name', 'supplierCompany',)
+    
+    fieldsets = (
+        (None, {'fields':('name', 'longitude', 'latitude', 'supplierCompany')}),
+    )
+    
+    add_fieldsets = (
+        (None, {
+            'classes':('wide',),
+            'fields':('name','longitude', 'latitude', 'supplierCompany')
+        })
+    )
+
+class StockDetailsAdmin(admin.ModelAdmin):
+    pass
+
+class ProductAdmin(admin.ModelAdmin):
+    pass
+
+class ProductCategoryAdmin(admin.ModelAdmin):
+    pass
 
 
 
+admin.site.register(WareHouse, WareHouseAdmin)
 admin.site.register(SuppliersAccount, SupplierAccountAdmin)
 admin.site.register(SupplierCompany, SupplierCompanyAdmin)
 admin.site.register(SupplierAccountRole,SupplierAccountRoleAdmin)
