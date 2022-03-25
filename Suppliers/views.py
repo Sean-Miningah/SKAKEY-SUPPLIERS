@@ -9,8 +9,9 @@ from rest_framework import mixins
 from rest_framework.authtoken.models import Token 
 from rest_framework.permissions import IsAuthenticated 
 
-from .models import (SupplierCompany, SupplierAccountRole)
-from .serializers import (SupplierAccountSerializer, SupplierCompanySerializer, SupplierAccountRoleSerializer)
+from .models import (SupplierCompany, SupplierAccountRole, WareHouse, StockDetails, Products, ProductCategory)
+from .serializers import (SupplierAccountSerializer, SupplierCompanySerializer, SupplierAccountRoleSerializer, 
+                          WareHouseSerializer, StockDetailsSerializer, ProductSerializer, ProductCategorySerializer)
 
 from .utilities import (get_and_authenticate_supplierAccount, generate_key)
 from .send_mail import verification_email
@@ -94,3 +95,20 @@ class AccountLogin(viewsets.GenericViewSet,
         }
         
         return Response(res, status=status.HTTP_200_OK)
+    
+class WareHouserView(viewsets.ModelViewSet):
+    queryset = WareHouse.objects.all()
+    serializer_class = WareHouserSerializer
+    
+class StockView(viewsets.ModelViewSet):
+    queryset = StockDetails.objects.all()
+    serializer_class = StockDetailsSerializer
+    
+class ProductView(viewsets.ModelViewSet):
+    queryset = Products.objects.all()
+    serializer_class = ProductsSerializer
+    
+class ProductCategory(viewsets.ModelViewSet):
+    queryset = ProductCategory.object.all()
+    serializer_class = ProductCategorySerializer
+
