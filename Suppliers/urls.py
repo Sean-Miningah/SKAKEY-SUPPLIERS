@@ -10,6 +10,7 @@ router.register("accountRoles", views.SupplierRoleView, basename="supplier-role"
 router.register("login", views.AccountLogin, basename="login")
 
 router.register("wareHouse", views.WareHouseView, basename="warehouse")
+router.register("selfCompany", views.CompanyView, basename='selfwarehouse')
 router.register("stocks", views.StockView, basename="stocks")
 router.register("products", views.ProductView, basename="products")
 router.register("productCategories", views.ProductCategory, basename="productcategories")

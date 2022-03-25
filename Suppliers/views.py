@@ -62,7 +62,22 @@ class SupplierCompanyView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = SupplierCompany.objects.all()
     serializer_class = SupplierCompanySerializer
-  
+    
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     return SupplierCompany.objects.all()
+    
+class CompanyView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = SupplierCompanySerializer
+    
+    def get_queryset(self):
+        queryset = SupplierCompany.objects.all()
+        user = self.request.user 
+        account = SuppliersAccount.objects.get(email=user)
+        company = queryset.filter(id=account.supplierCompany.id)
+        return company
+    
     
 class SupplierRoleView(viewsets.ModelViewSet):
     queryset = SupplierAccountRole.objects.all()
