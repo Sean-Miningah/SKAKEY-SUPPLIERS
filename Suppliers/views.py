@@ -91,6 +91,18 @@ class CompanyView(viewsets.ModelViewSet):
         company = queryset.filter(id=account.supplierCompany.id)
         return company
     
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        data = serializer.data.pop(0)
+        return Response(data)
+    
     
 class SupplierRoleView(viewsets.ModelViewSet):
     queryset = SupplierAccountRole.objects.all()
