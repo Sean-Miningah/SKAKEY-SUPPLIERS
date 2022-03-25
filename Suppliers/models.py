@@ -60,4 +60,30 @@ class SupplierAccountRole(models.Model):
     
     def __str__(self):
         return self.name
+
+class WareHouse(models.Model):
+    supplierCompany = models.ForeignKey('SupplierCompany', on_delete=models.CASCADE, blank=False,
+                                   null=False, default=None)
+    longitude = models.FloatField()
+    latitude = models.FloatField()
+    name = models.CharField(max_length=100, blank=True, null=True, default=None)
     
+    def __str__(self):
+        return self.name
+
+class StockDetails(models.Model):
+    stockNo = models.BigIntegerField()
+    price = models.BigIntegerField()
+    warehouseId = models.ForeignKey('WareHouse', on_delete=models.CASCADE, blank=False,
+                                    null=False, default=None)
+    products = models.ForeignKey('Products', on_delete=models.CASCADE, blank=True,
+                                 null=True, default=None)    
+    
+class Products(models.Model):
+    name = models.CharField(max_length=100, blank=False, null=False, default=None)
+    barcode = models.BigIntegerField()
+    category = models.ForeignKey('ProductCategory', on_delete=models.CASCADE,
+                                 blank=True, null=True, default=None)
+    
+class ProductCategory(models.Model):
+    name = models.CharField(max_length=100, unique=True, null=False)
