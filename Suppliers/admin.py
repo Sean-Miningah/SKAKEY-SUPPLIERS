@@ -57,8 +57,8 @@ class SupplierAccountRoleAdmin(admin.ModelAdmin):
     )
 
 class WareHouseAdmin(admin.ModelAdmin):
-    list_display = ('name', 'supplierCompany',)
-    search_fields = ('name', 'supplierCompany',)
+    list_display = ('id', 'name', 'supplierCompany',)
+    search_fields = ('id', 'name', 'supplierCompany',)
     
     fieldsets = (
         (None, {'fields':('name', 'longitude', 'latitude', 'supplierCompany')}),
@@ -72,16 +72,55 @@ class WareHouseAdmin(admin.ModelAdmin):
     )
 
 class StockDetailsAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('id', 'pricePerUnit', 'wareHouse', 'product')
+    search_fields = ('id', 'product',)
+    
+    fieldsets = (
+        (None, {'fields':('pricePerUnit', 'wareHouse', 'product', 'stockQuantity')}),
+    )
+    
+    add_fieldsets = (
+        (None, {
+            'classes':('wide',),
+            'fields':('pricePerUnit', 'wareHouse', 'stockQuantity', 'product')
+        })
+    )
 
-class ProductAdmin(admin.ModelAdmin):
-    pass
+
+class ProductsAdmin(admin.ModelAdmin):
+    list_display = ('id', 'name', 'category')
+    search_fields = ('id', 'name', 'category')
+    
+    fieldsets = (
+        (None, {'fields':('name', 'category', 'barcode')}),
+    )
+    
+    add_fieldsets = (
+        (None, {
+            'classes':('wide',),
+            'fields':('name', 'barcode', 'category', 'barcode')
+        })
+    )
 
 class ProductCategoryAdmin(admin.ModelAdmin):
-    pass
-
-
-
+    list_display = ('id', 'name',)
+    search_fields = ('id', 'name',)
+    
+    fieldsets = (
+        (None, {'fields':('name',)}),
+    )
+    
+    add_fieldsets = (
+        (None, {
+            'classes':('wide',),
+            'fields':('name',)
+        })
+    )
+    
+    
+admin.site.register(StockDetails, StockDetailsAdmin)
+admin.site.register(Products, ProductsAdmin)
+admin.site.register(ProductCategory, ProductCategoryAdmin)
 admin.site.register(WareHouse, WareHouseAdmin)
 admin.site.register(SuppliersAccount, SupplierAccountAdmin)
 admin.site.register(SupplierCompany, SupplierCompanyAdmin)

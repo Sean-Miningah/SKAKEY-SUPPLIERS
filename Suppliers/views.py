@@ -185,10 +185,31 @@ class StockView(viewsets.ModelViewSet):
     queryset = StockDetails.objects.all()
     serializer_class = StockDetailsSerializer
     
+    # Api gets a list of products to add to it's stockDetails
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data, many=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        
+        warehouse = WareHouse.objects.get(id=serializer.data.pop(0)["wareHouse"])
+        
+        message = "Succesfully Added Stock to WareHouse " + warehouse.name
+        
+        res = {
+            "message": message
+        }
+        
+        return Response(res,status=status.HTTP_200_OK)
+    
+    
+    
 class ProductView(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     queryset = Products.objects.all()
     serializer_class = ProductsSerializer
+    
+    
     
 class ProductCategory(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]

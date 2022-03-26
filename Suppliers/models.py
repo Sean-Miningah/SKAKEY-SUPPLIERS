@@ -72,18 +72,31 @@ class WareHouse(models.Model):
         return self.name
 
 class StockDetails(models.Model):
-    stockNo = models.BigIntegerField()
-    price = models.BigIntegerField()
-    warehouseId = models.ForeignKey('WareHouse', on_delete=models.CASCADE, blank=False,
+    # stock quantity
+    stockQuantity = models.BigIntegerField() 
+    # price per unit
+    pricePerUnit = models.BigIntegerField()
+    wareHouse = models.ForeignKey('WareHouse', on_delete=models.CASCADE, blank=False,
                                     null=False, default=None)
-    products = models.ForeignKey('Products', on_delete=models.CASCADE, blank=True,
-                                 null=True, default=None)    
+    product = models.ForeignKey('Products', on_delete=models.CASCADE, blank=True,
+                                 null=True, default=None)   
     
+    def __str__(self):
+        return self.product.name + ' ---- ' + self.wareHouse.name
+    
+
 class Products(models.Model):
     name = models.CharField(max_length=100, blank=False, null=False, default=None)
     barcode = models.BigIntegerField()
     category = models.ForeignKey('ProductCategory', on_delete=models.CASCADE,
                                  blank=True, null=True, default=None)
     
+    def __str__(self):
+        return self.name
+    
 class ProductCategory(models.Model):
+    # diary, sugar, cereals, flour
     name = models.CharField(max_length=100, unique=True, null=False)
+    
+    def __str__(self):
+        return self.name
