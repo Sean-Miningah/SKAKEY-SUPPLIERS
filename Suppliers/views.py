@@ -7,11 +7,12 @@ from rest_framework.response import Response
 from rest_framework import viewsets 
 from rest_framework import mixins 
 from rest_framework.authtoken.models import Token 
-from rest_framework.permissions import IsAuthenticated 
+from rest_framework.permissions import IsAuthenticated
 
 from .models import (SupplierCompany, SupplierAccountRole, WareHouse, StockDetails, Products, ProductCategory)
 from .serializers import (SupplierAccountSerializer, SupplierCompanySerializer, SupplierAccountRoleSerializer, 
                           WareHouseSerializer, StockDetailsSerializer, ProductsSerializer, ProductCategorySerializer)
+from .permissions import SubordinateUserCreation
 
 from .utilities import (get_and_authenticate_supplierAccount, generate_key)
 from .send_mail import verification_email
@@ -109,7 +110,7 @@ class SupplierRoleView(viewsets.ModelViewSet):
     serializer_class = SupplierAccountRoleSerializer
     
 class SubordinateAccountView(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, SubordinateUserCreation]
     queryset = SuppliersAccount.objects.all()
     serializer_class = SupplierAccountSerializer
     
