@@ -44,6 +44,7 @@ class SupplierAccountRoleAdmin(admin.ModelAdmin):
     ordering = ('name',)
     search_fields = ('name',)
     list_display = ('id', 'name')
+    list_filter = ('name',)
     
     fieldsets = (
         (None, {'fields':('name',)}),
