@@ -183,7 +183,7 @@ class WareHouseView(viewsets.ModelViewSet):
         
     
 class StockView(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     queryset = StockDetails.objects.all()
     serializer_class = StockDetailsSerializer
     
@@ -205,11 +205,11 @@ class StockView(viewsets.ModelViewSet):
         return Response(res,status=status.HTTP_200_OK)
     
     def list(self, request,*args,**kwargs):
-        wareHouse = WareHouse.objects.get(id=request.data['warehouse'])
+        print(request.headers)
+        wareHouse = WareHouse.objects.get(id=request.headers['warehouse'])
         warehouseStocks = StockDetails.objects.filter(wareHouse=wareHouse)
         serializer = WareHouseStockSerializer(warehouseStocks, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-    
     
     
 class ProductView(viewsets.ModelViewSet):
