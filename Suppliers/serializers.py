@@ -36,6 +36,35 @@ class StockDetailsSerializer(serializers.ModelSerializer):
     class Meta: 
         model = StockDetails
         fields = '__all__'
+        
+class WareHouseStockSerializer(serializers.ModelSerializer):
+    productName = serializers.SerializerMethodField()
+    productCategory = serializers.SerializerMethodField()
+    class Meta: 
+        model = StockDetails
+        fields = '__all__'
+    
+    def get_productName(self, obj):
+        return obj.product.name
+    
+    def get_productCategory(self,obj):
+        return obj.product.category.name
+        
+        
+# class WareHouseStockSerializer(serializers.ModelSerializer):
+#     # productName = serializers.SerializerMethodField(method_name='name')
+#     # productCategory = serializers.SerializerMethodField()
+    
+#     class Meta:
+#         model = StockDetails
+#         fields = '__all__'
+        
+    
+#     # def get_productCategory(self, obj):
+#     #     product = Product.objects.get(id=obj.product.id)
+#     #     category = Category.objects.get(id=product.category.id)
+#     #     print(category)
+#         # return category
 
 class ProductsSerializer(serializers.ModelSerializer):
     class Meta: 

@@ -11,7 +11,8 @@ from rest_framework.permissions import IsAuthenticated
 
 from .models import (SupplierCompany, SupplierAccountRole, WareHouse, StockDetails, Products, ProductCategory)
 from .serializers import (SupplierAccountSerializer, SupplierCompanySerializer, SupplierAccountRoleSerializer, 
-                          WareHouseSerializer, StockDetailsSerializer, ProductsSerializer, ProductCategorySerializer)
+                          WareHouseSerializer, StockDetailsSerializer, ProductsSerializer, ProductCategorySerializer,
+                          WareHouseStockSerializer)
 from .permissions import SubordinateUserCreation
 
 from .utilities import (get_and_authenticate_supplierAccount, generate_key)
@@ -202,6 +203,12 @@ class StockView(viewsets.ModelViewSet):
         }
         
         return Response(res,status=status.HTTP_200_OK)
+    
+    def list(self, request,*args,**kwargs):
+        wareHouse = WareHouse.objects.get(id=request.data['warehouse'])
+        warehouseStocks = StockDetails.objects.filter(wareHouse=wareHouse)
+        serializer = WareHouseStockSerializer(warehouseStocks, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
     
     
     
