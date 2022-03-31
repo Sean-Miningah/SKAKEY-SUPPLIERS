@@ -86,13 +86,17 @@ class StockDetails(models.Model):
     
 
 class Products(models.Model):
+    # image = models.ImageField(upload_to='Products/image/', null=True, blank=True, default='default.jpg')
     name = models.CharField(max_length=100, blank=False, null=False, default=None)
     barcode = models.BigIntegerField()
     category = models.ForeignKey('ProductCategory', on_delete=models.CASCADE,
                                  blank=True, null=True, default=None)
+    # unit of measure
     
     def __str__(self):
         return self.name
+    
+# create a table to store the unit of measure
     
 class ProductCategory(models.Model):
     # diary, sugar, cereals, flour

@@ -189,19 +189,52 @@ class StockView(viewsets.ModelViewSet):
     
     # Api gets a list of products to add to it's stockDetails
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data, many=True)
-        serializer.is_valid(raise_exception=True)
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
         
-        warehouse = WareHouse.objects.get(id=serializer.data.pop(0)["wareHouse"])
+        shop_stock = request.data
         
-        message = "Succesfully Added Stock to WareHouse " + warehouse.name
-        
-        res = {
-            "message": message
-        }
-        
+        print(id(shop_stock))
+        deletion_list = []
+        # Transverse through stock that is to be created 
+        for i, stock in enumerate(shop_stock):
+            stockQuantity = stock['stockQuantity']
+            # CHeck if product stock already exists in the warehouse
+            try:
+                # If exists update product quantity and save, keep track of products that have been updated
+
+                warehouse = StockDetails.objects.get(product=stock['product'], wareHouse=stock['wareHouse'])
+                fquantity = warehouse.stockQuantity + int(stockQuantity)
+                warehouse.stockQuantity = fquantity
+                warehouse.save()
+                deletion_list.append(stock)
+                   
+            except Exception  as e:
+                # If product doesn't exist in the database pass
+                print(e)
+                
+                    
+        # Remove stock that has been updated from the list 
+        if deletion_list:
+            for i in deletion_list:
+                shop_stock.remove(i)
+                
+            
+        if shop_stock:
+            serializer = self.get_serializer(data=shop_stock, many=True)
+            serializer.is_valid(raise_exception=True)
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            
+            warehouse = WareHouse.objects.get(id=serializer.data.pop(0)["wareHouse"])
+            
+            message = "Succesfully Added Stock to WareHouse " + warehouse.name
+            
+            res = {
+                "message": message
+            }
+        else:
+            res ={
+                "message": 'Stock Succesfully updated',
+            }
         return Response(res,status=status.HTTP_200_OK)
     
     def list(self, request,*args,**kwargs):
