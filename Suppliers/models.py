@@ -80,18 +80,22 @@ class StockDetails(models.Model):
                                     null=False, default=None)
     product = models.ForeignKey('Products', on_delete=models.CASCADE, blank=True,
                                  null=True, default=None)   
+    out_of_stock = models.BooleanField(default=False)
+    unitOfMeasure = models.CharField(max_length=30, blank=True, null=True)
     
     def __str__(self):
         return self.product.name + ' ---- ' + self.wareHouse.name
     
 
 class Products(models.Model):
-    # image = models.ImageField(upload_to='Products/image/', null=True, blank=True, default='default.jpg')
+    image = models.ImageField(upload_to='Products/image/', null=True, blank=True)
     name = models.CharField(max_length=100, blank=False, null=False, default=None)
     barcode = models.BigIntegerField()
     category = models.ForeignKey('ProductCategory', on_delete=models.CASCADE,
                                  blank=True, null=True, default=None)
-    # unit of measure
+    unitOfMeasure = models.CharField(max_length=30, blank=True, null=True)
+    altunitOfMeasure = models.CharField(max_length=30, blank=True, null=True)
+    UOMConversion = models.BigIntegerField()
     
     def __str__(self):
         return self.name
