@@ -77,13 +77,15 @@ class StockDetailsAdmin(admin.ModelAdmin):
     search_fields = ('id', 'product',)
     
     fieldsets = (
-        (None, {'fields':('pricePerUnit', 'wareHouse', 'product', 'stockQuantity')}),
+        (None, {'fields':('pricePerUnit', 'wareHouse', 'product', 'stockQuantity', 
+                          'out_of_stock', 'unitOfMeasure')}),
     )
     
     add_fieldsets = (
         (None, {
             'classes':('wide',),
-            'fields':('pricePerUnit', 'wareHouse', 'stockQuantity', 'product')
+            'fields':('pricePerUnit', 'wareHouse', 'stockQuantity', 'product',
+                      'out_of_stock', 'unitOfMeasure')
         })
     )
 
@@ -93,13 +95,15 @@ class ProductsAdmin(admin.ModelAdmin):
     search_fields = ('id', 'name', 'category')
     
     fieldsets = (
-        (None, {'fields':('name', 'category', 'barcode')}),
+        (None, {'fields':('name', 'category', 'barcode', 'image',
+                          'unitOfMeasure', 'altunitOfMeasure', 'UOMConversion')}),
     )
     
     add_fieldsets = (
         (None, {
             'classes':('wide',),
-            'fields':('name', 'barcode', 'category', 'barcode')
+            'fields':('name', 'barcode', 'category', 'barcode', 'image',
+                          'unitOfMeasure', 'altunitOfMeasure', 'UOMConversion')
         })
     )
 
