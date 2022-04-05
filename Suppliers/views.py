@@ -37,7 +37,7 @@ class AccountAuthenticationView(mixins.CreateModelMixin, viewsets.GenericViewSet
 
 class ResetPasswordView(mixins.CreateModelMixin, viewsets.GenericViewSet,):
     queryset = SuppliersAccount.objects.all()
-    serialzer_class = SupplierAccountSerializer
+    serializer_class = SupplierAccountSerializer
     
     def create(seld, request, *args, **kwargs):
         password = request.data['password']
