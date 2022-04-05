@@ -35,6 +35,24 @@ class AccountAuthenticationView(mixins.CreateModelMixin, viewsets.GenericViewSet
         }
         return Response(res, status=status.HTTP_200_OK)
 
+class ResetPasswordView(mixins.CreateModelMixin, viewsets.GenericViewSet,):
+    queryset = SuppliersAccount.objects.all()
+    serialzer_class = SupplierAccountSerializer
+    
+    def create(seld, request, *args, **kwargs):
+        password = request.data['password']
+        account = SuppliersAccount.objects.get(email=request.data['email'])
+        account.set_password(password)
+        account.save()
+        token = Token.objects.get(user=account)
+        
+        res = {
+            "message": "Successfully changed password",
+            'token': "Token " + token.key
+        }
+        
+        return Response(res, status=status.HTTP_201_CREATED)
+    
 
 class SupplierAccountView(mixins.CreateModelMixin,
                           viewsets.GenericViewSet,):
