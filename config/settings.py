@@ -24,12 +24,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-5)hf(wnx#2k*u9@lm5@@*r*p&*(!r()qn3yt98#&bajhu11f7&'
+SECRET_KEY = env('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG') == "1"
 
-ALLOWED_HOSTS = []
+if DEBUG :
+    ALLOWED_HOSTS = []
+else:
+    ALLOWED_HOSTS = [os.environ.get('WEBSITE_HOSTNAME'),]
+    # ALLOWED_HOSTS = []
+    
 
 
 # Application definition
@@ -37,6 +42,10 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'Suppliers',
     
+    'whitenoise.runserver_nostatic',
+    'django_filters',
+    'rest_framework',
+    'rest_framework.authtoken',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -81,13 +90,25 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': env('POSTGRES_DB'),
+            'USER': env('POSTGRES_USERNAME'),
+            'PASSWORD': env('POSTGRES_PASSWORD'),
+            'HOST': env('POSTGRES_HOST'),
+            'PORT': env('POSTGRES_PORT'),
+            'OPTIONS':{'sslmode': 'require'}
+        }
+    }
 
 
 # Password validation
@@ -152,3 +173,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Default user model
 AUTH_USER_MODEL = 'Suppliers.SuppliersAccount'
 
+# EMAIL ADDRESS DETAILS
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'skakeypos@gmail.com'
+EMAIL_HOST_PASSWORD = 'olobnnfviqdgydfg'
+# DEFAULT_FROM_EMAIL
